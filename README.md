@@ -5,6 +5,7 @@ One Paragraph of project description goes here
 ## Getting Started
 
 git clone https://github.com/achilleburah/django-rest-framework-tinder-api/
+
 pip install -r requirements.txt
 
 ### API ENDPOINTS
