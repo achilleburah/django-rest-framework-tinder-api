@@ -1,6 +1,6 @@
-# Tinder like API using Django Rest Framework and PostgreSQL
+# Django-Rest-Framework-Tinder-Api
 
-One Paragraph of project description goes here
+Tinder like API using Django Rest Framework and PostgreSQL
 
 ## Getting Started
 
