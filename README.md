@@ -10,18 +10,15 @@ pip install -r requirements.txt
 
 ### API ENDPOINTS
 
-Register
+#### Register
 /users/new
-Login 
+#### Login 
 /api-auth/login/
-Admin 
+#### Admin 
 /admin
-
-List profiles suggestions based on genre and radius
+#### List profiles suggestions based on genre and radius
 /users/proposals/?genre=F&radius__lte=5
-
-List and create new match requests
+#### List and create new match requests
 /users/requests/
-
-List User's matches
+#### List User's matches
 /users/matches/?user_id=2
