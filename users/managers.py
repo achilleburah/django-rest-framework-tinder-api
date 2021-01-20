@@ -1,10 +1,13 @@
 from django.contrib.auth.base_user import BaseUserManager
+from django.contrib.gis.geos import Point
 
+
+paris_location = Point(float(2.351462), float(48.856697))
 
 
 class CustomUserManager(BaseUserManager):
 
-  def create_user(self, email, first_name, last_name, genre, bio, location, password=None):
+  def create_user(self, email, first_name, last_name, genre, bio, location=paris_location, password=None):
 
     if not email:
       raise ValueError('Users must have an email address')
@@ -31,7 +34,7 @@ class CustomUserManager(BaseUserManager):
     return user
 
 
-  def create_superuser(self, email, first_name, last_name, genre, password, location, bio):
+  def create_superuser(self, email, first_name, last_name, genre, password, bio, location=paris_location):
     user = self.create_user(
       email=self.normalize_email(email),
       password=password,

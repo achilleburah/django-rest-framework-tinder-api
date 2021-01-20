@@ -2,22 +2,23 @@ from django.shortcuts import render
 from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework import generics
-from rest_framework.permissions import IsAdminUser
+from rest_framework.permissions import IsAdminUser, AllowAny
 from django.contrib.gis.db.models.functions import GeometryDistance
 
 from users.models import CustomUser, MatchedUser, MatchRequest
-from users.serializers import CustomUserSerializer, UserInfoSerializer, MatchRequestSerializer, MatchRequestSerializer
+from users.serializers import CustomUserSerializer, UserInfoSerializer, MatchRequestSerializer, MatchedUsersSerializer, CustomRegisterUserSerializer
 from users.filters import UserProposalsFilter
 
 
 
-class UserViewSet(viewsets.ModelViewSet):
+class CustomUserView(generics.CreateAPIView):
     """
-    This viewset automatically provides `list` and `retrieve` actions.
+    This viewset automatically only provides the Create action.
     """
     queryset = CustomUser.objects.all()
-    serializer_class = CustomUserSerializer
-    permission_classes = [IsAdminUser]
+    serializer_class = CustomRegisterUserSerializer
+    permission_classes = (AllowAny,)
+
 
 
 
@@ -49,20 +50,11 @@ class MatchRequestViewSet(viewsets.ModelViewSet):
     serializer_class = MatchRequestSerializer
 
 
-  # @action(detail=True, )
-  # def new(self, request, pk=None):
-  #     current_user = self.request.user
-  #     new_request = MatchRequest
-
-  #     return Response({'status': 'new request saved'})
-
-
-
 
 class MatchedUsersView(generics.ListAPIView):
 
-  queryset = MatchRequest.objects.all()
-  serializer_class = MatchRequestSerializer
+  queryset = MatchedUser.objects.all()
+  serializer_class = MatchedUsersSerializer
 
   def list(self, request):
     queryset = self.get_queryset()

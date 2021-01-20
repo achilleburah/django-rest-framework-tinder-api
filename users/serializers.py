@@ -8,14 +8,39 @@ from users.models import CustomUser, MatchedUser, MatchRequest
 
 class CustomUserSerializer(serializers.ModelSerializer):
 
-
 	class Meta:
 		model = CustomUser
 		fields = '__all__'
-
+		ordering = ['email']
 
 	def create(self, validated_data):
 		return CustomUser.objects.create_user(**validated_data)
+
+
+class CustomRegisterUserSerializer(serializers.ModelSerializer):
+
+	#password = serializers.CharField(style={'input_type': 'password'}, write_only=True)
+	password2 = serializers.CharField(style={'input_type': 'password'}, write_only=True)
+	password2 = serializers.CharField(style={'input_type': 'password'}, write_only=True)
+
+	class Meta:
+		model = CustomUser
+		fields = ['email', 'first_name', 'last_name', 'genre', 'bio', 'password', 'password2']
+		ordering = ['email']
+
+		extra_kwargs = {
+			'password': {'style': {'input_type': 'password'}, 'required': True, 'write_only': True},
+
+		}
+
+	def create(self, validated_data):
+		if self.validated_data['password'] == self.validated_data['password2']:
+			data = validated_data.pop('password2')
+			return CustomUser.objects.create_user(**validated_data)
+		else:
+			raise serializers.ValidationError("Password not identical")
+
+
 
 
 
@@ -54,17 +79,8 @@ class MatchRequestSerializer(serializers.ModelSerializer):
 		else:
 			return data
 
-	# def create(self, validated_data):
-	# 	request =  MatchRequest.objects.create(**validated_data)
 
-
-	# 	return request
-
-
-
-
-
-class MatchRequestSerializer(serializers.ModelSerializer):
+class MatchedUsersSerializer(serializers.ModelSerializer):
 
 
 	user1_id = serializers.IntegerField(required=True)
